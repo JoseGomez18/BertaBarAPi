@@ -10,8 +10,11 @@ async function createTables() {
             precio_compra REAL NOT NULL,
             precio_venta REAL NOT NULL,
             cantidad INTEGER NOT NULL,
-            fecha_vencimiento TEXT NOT NULL
+            fecha_vencimiento TEXT NOT NULL,
+            categoria_id INTEGER,
+            FOREIGN KEY (categoria_id) REFERENCES tblCategorias(id) ON DELETE SET NULL
         );
+
 
         CREATE TABLE IF NOT EXISTS tblVentas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,6 +22,11 @@ async function createTables() {
             totalVenta REAL DEFAULT 0,
             servicio REAL DEFAULT 0,
             estado TEXT CHECK(estado IN ('pendiente', 'completado', 'por deber')) DEFAULT 'pendiente'
+        );
+
+            CREATE TABLE IF NOT EXISTS tblCategorias (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL UNIQUE
         );
         
         CREATE TABLE IF NOT EXISTS tblDetalles_venta (

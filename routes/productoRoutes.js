@@ -7,5 +7,9 @@ router.get('/productoByID', productoController.getProductByID);
 router.post('/productos', productoController.createProducto);
 router.delete('/deleteProduct', productoController.deleteProductByID);
 router.put('/updateProduct', productoController.updateProductByID);
+//categorias despues pasar otro
+router.get('/categorias', productoController.getAllCategories);
+router.get('/categoriaById', productoController.getCategoryById);
+router.post('/crearCategoria', productoController.createCategory);
 
 module.exports = router;
