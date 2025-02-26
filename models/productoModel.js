@@ -3,14 +3,14 @@ const connectDB = require('../config/db');
 const ProductoModel = {
     async getAll() {
         const db = await connectDB();
-        const productos = await db.all('SELECT * FROM tblProductos');
+        const productos = await db.all('SELECT p.id, p.nombre, p.precio_compra, p.precio_venta, p.cantidad, p.fecha_vencimiento, c.nombre as categoria FROM tblProductos p INNER JOIN tblCategorias c ON p.categoria_id = c.id');
         await db.close();
         return productos;
     },
 
     async getProductById(id) {
         const db = await connectDB();
-        const producto = await db.get("SELECT p.nombre, p.precio_compra, p.precio_venta, p.cantidad, p.fecha_vencimiento, c.nombre as categoria FROM tblProductos p INNER JOIN tblCategorias c ON p.categoria_id = c.id WHERE p.id = ?", [id]);
+        const producto = await db.get("SELECT p.id, p.nombre, p.precio_compra, p.precio_venta, p.cantidad, p.fecha_vencimiento, c.nombre as categoria FROM tblProductos p INNER JOIN tblCategorias c ON p.categoria_id = c.id WHERE p.id = ?", [id]);
         await db.close();
         return producto;
     },

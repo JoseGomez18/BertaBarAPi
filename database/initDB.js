@@ -18,6 +18,7 @@ async function createTables() {
 
         CREATE TABLE IF NOT EXISTS tblVentas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
             fecha TEXT DEFAULT (datetime('now')),
             totalVenta REAL DEFAULT 0,
             servicio REAL DEFAULT 0,
