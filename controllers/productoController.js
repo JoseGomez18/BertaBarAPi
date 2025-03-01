@@ -20,9 +20,10 @@ const getAllCategories = async (req, res) => {
 
 const getProductByID = async (req, res) => {
     try {
-        const producto = await ProductoModel.getProductById(req.body.id);
+        const { id } = req.params;
+        const producto = await ProductoModel.getProductById(id);
         if (!producto) {
-            res.status(404).json({ error: "No existe un producto con este id" })
+            res.status(404).json({ error: "No existe un producto con este id" + id })
             return;
         }
         res.json(producto);
@@ -33,9 +34,10 @@ const getProductByID = async (req, res) => {
 
 const getCategoryById = async (req, res) => {
     try {
-        const producto = await ProductoModel.getCategoryById(req.body.id);
+        const { id } = req.params;
+        const producto = await ProductoModel.getCategoryById(id);
         if (!producto) {
-            res.status(404).json({ error: "No existe una categoria con este id" })
+            res.status(404).json({ error: "No existe una categoria con este id " + id })
             return;
         }
         res.json(producto);
