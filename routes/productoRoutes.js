@@ -5,7 +5,7 @@ const productoController = require('../controllers/productoController');
 router.get('/productos', productoController.getProductos);
 router.get('/productoByID/:id', productoController.getProductByID);
 router.post('/productos', productoController.createProducto);
-router.delete('/deleteProduct', productoController.deleteProductByID);
+router.delete('/deleteProduct/:id', productoController.deleteProductByID);
 router.put('/updateProduct', productoController.updateProductByID);
 //categorias despues pasar otro
 router.get('/categorias', productoController.getAllCategories);

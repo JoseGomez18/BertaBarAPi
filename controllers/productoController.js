@@ -48,7 +48,7 @@ const getCategoryById = async (req, res) => {
 
 const deleteProductByID = async (req, res) => {
     try {
-        const id = req.body.id
+        const { id } = req.params;
         const validacion = await ProductoModel.getProductById(id);
         if (!validacion) {
             res.status(404).json({ error: "No existe un producto con este id" })
