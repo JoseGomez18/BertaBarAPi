@@ -75,7 +75,7 @@ const ventaModel = {
     },
     async obtenerDetalleVentas2() {
         const db = await connectDB()
-        const ventas = await db.all("SELECT v.id, v.nombre, v.servicio,p.nombre as producto, d.cantidad FROM tblVentas v INNER JOIN tblDetalles_venta d ON v.id = d.venta_id INNER JOIN tblProductos p ON p.id = d.producto_id")
+        const ventas = await db.all("SELECT v.id, v.nombre, v.servicio,p.nombre as producto, d.cantidad, v.totalVenta as total, v.estado FROM tblVentas v INNER JOIN tblDetalles_venta d ON v.id = d.venta_id INNER JOIN tblProductos p ON p.id = d.producto_id")
         await db.close()
         return ventas
     },

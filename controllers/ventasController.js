@@ -53,7 +53,9 @@ async function obtenerVentas(req, res) {
                         id: venta.id,
                         nombre: venta.nombre,
                         servicio: venta.servicio,
-                        productos: []
+                        productos: [],
+                        total: venta.total,
+                        estado: venta.estado
                     };
                 }
                 acc[venta.id].productos.push({ producto: venta.producto, cantidad: venta.cantidad });
