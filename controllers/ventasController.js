@@ -45,8 +45,22 @@ async function actualizarEstadoVenta(req, res) {
 async function obtenerVentas(req, res) {
 
     try {
-        const ventas = await ventaModel.obtenerVentas()
-        res.status(200).json(ventas)
+        const ventas = await ventaModel.obtenerDetalleVentas2()
+        const ventasAgrupadas = Object.values(
+            ventas.reduce((acc, venta) => {
+                if (!acc[venta.id]) {
+                    acc[venta.id] = {
+                        id: venta.id,
+                        nombre: venta.nombre,
+                        servicio: venta.servicio,
+                        productos: []
+                    };
+                }
+                acc[venta.id].productos.push({ producto: venta.producto, cantidad: venta.cantidad });
+                return acc;
+            }, {})
+        );
+        res.status(200).json(ventasAgrupadas)
 
     } catch (error) {
         res.status(500).json({ error: 'Error obteniendo las ventas' });
@@ -66,4 +80,30 @@ async function obtenerVentasByID(req, res) {
 
 }
 
-module.exports = { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID };
+async function actualizarVenta(req, res) {
+    const { id, nombre, productos, servicio } = req.body;
+
+    if (!id || !productos || productos.length === 0) {
+        return res.status(400).json({ error: 'Debe enviar el ID de la venta y al menos un producto' });
+    }
+
+    try {
+        const ventaActualizada = await ventaModel.actualizarVenta(id, nombre, productos, servicio);
+        res.json({ message: 'Venta actualizada con éxito', venta: ventaActualizada });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error actualizando la venta' });
+    }
+}
+
+async function borrarVentas(req, res) {
+    try {
+        const resul = await ventaModel.borrarVentas()
+        res.send("tablas borradas")
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+
+module.exports = { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID, actualizarVenta, borrarVentas };
