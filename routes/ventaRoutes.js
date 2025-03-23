@@ -1,5 +1,5 @@
 const express = require('express');
-const { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID, actualizarVenta, borrarVentas } = require('../controllers/ventasController');
+const { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID, actualizarVenta, borrarVentas, resumenVentas } = require('../controllers/ventasController');
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.put('/ventasEstado/:id', actualizarEstadoVenta);
 router.put('/actualizarVenta', actualizarVenta);
 
 router.get('/borrarventas', borrarVentas);
+router.get('/resumenVentas', resumenVentas);
 
 
 module.exports = router;

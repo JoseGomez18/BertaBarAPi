@@ -46,6 +46,7 @@ async function obtenerVentas(req, res) {
 
     try {
         const ventas = await ventaModel.obtenerDetalleVentas2()
+        console.log(ventas)
         const ventasAgrupadas = Object.values(
             ventas.reduce((acc, venta) => {
                 if (!acc[venta.id]) {
@@ -55,10 +56,12 @@ async function obtenerVentas(req, res) {
                         servicio: venta.servicio,
                         productos: [],
                         total: venta.total,
-                        estado: venta.estado
+                        estado: venta.estado,
+                        fecha: venta.fecha,
+                        subtotal: venta.subtotal
                     };
                 }
-                acc[venta.id].productos.push({ producto: venta.producto, cantidad: venta.cantidad });
+                acc[venta.id].productos.push({ producto: venta.producto, cantidad: venta.cantidad, precio: venta.precio_unitario });
                 return acc;
             }, {})
         );
@@ -107,5 +110,14 @@ async function borrarVentas(req, res) {
     }
 }
 
+async function resumenVentas(req, res) {
+    try {
+        const resul = await ventaModel.resumenVentas()
+        res.json({ message: 'resumen', venta: resul });
+    } catch (error) {
+        res.send(error)
+    }
+}
 
-module.exports = { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID, actualizarVenta, borrarVentas };
+
+module.exports = { registrarVenta, actualizarEstadoVenta, obtenerVentas, obtenerVentasByID, actualizarVenta, borrarVentas, resumenVentas };

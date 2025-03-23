@@ -1,4 +1,5 @@
 const connectDB = require('../config/db');
+const { resumenVentas } = require('../controllers/ventasController');
 
 const ventaModel = {
     async registrarVenta(nombre, productos, servicio = 0) {
@@ -75,7 +76,8 @@ const ventaModel = {
     },
     async obtenerDetalleVentas2() {
         const db = await connectDB()
-        const ventas = await db.all("SELECT v.id, v.nombre, v.servicio,p.nombre as producto, d.cantidad, v.totalVenta as total, v.estado FROM tblVentas v INNER JOIN tblDetalles_venta d ON v.id = d.venta_id INNER JOIN tblProductos p ON p.id = d.producto_id")
+        const ventas = await db.all("SELECT v.id, v.nombre, v.servicio,v.fecha,(v.totalVenta - v.servicio) As subtotal, p.nombre as producto, d.cantidad,d.precio_unitario, v.totalVenta as total, v.estado FROM tblVentas v INNER JOIN tblDetalles_venta d ON v.id = d.venta_id INNER JOIN tblProductos p ON p.id = d.producto_id")
+        console.log(ventas)
         await db.close()
         return ventas
     },
@@ -129,6 +131,12 @@ const ventaModel = {
         const db = await connectDB();
         await db.run("DELETE FROM tblVentas")
         await db.run("DELETE FROM tblDetalles_venta")
+    },
+    async resumenVentas() {
+        const db = await connectDB();
+        const ventas = await db.all("SELECT SUM(totalVenta) FROM tblVentas")
+        await db.close()
+        return ventas
     }
 };
 
