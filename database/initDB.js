@@ -37,6 +37,7 @@ async function createTables() {
             cantidad INTEGER NOT NULL,
             precio_unitario REAL NOT NULL,
             subtotal REAL NOT NULL,
+            servicio REAL DEFAULT 0,
             FOREIGN KEY (venta_id) REFERENCES tblVentas(id),
             FOREIGN KEY (producto_id) REFERENCES tblProductos(id)
         );
